@@ -58,9 +58,9 @@ namespace AoC2018Lib
         /// </summary>
         public abstract void Part02();
 
-        public void Exec()
+        public void Exec(bool runPart01 = true, bool runPart02 = true)
         {
-            if (inputForPart01Valid)
+            if (inputForPart01Valid && runPart01)
             {
                 System.Console.WriteLine("----------------");
                 System.Console.WriteLine("    Part 01");
@@ -69,7 +69,7 @@ namespace AoC2018Lib
                 Part01();
             }
 
-            if (inputForPart02Valid)
+            if (inputForPart02Valid && runPart02)
             {
                 System.Console.WriteLine("----------------");
                 System.Console.WriteLine("    Part 02");

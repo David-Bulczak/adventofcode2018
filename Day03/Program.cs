@@ -27,6 +27,35 @@ namespace Day03
         public int TopEdge { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+
+        public int RightEdge() { return LeftEdge + Width - 1; }
+        public int BottomEdge() { return TopEdge + Height - 1; }
+
+        public bool Covered(int LeftPos, int TopPos)
+        {
+            var RightEdge = LeftEdge + Width - 1;
+            var BottomEdge = TopEdge + Height - 1;
+
+            return (LeftPos >= LeftEdge && LeftPos <= RightEdge && TopPos >= TopEdge && TopPos <= BottomEdge);
+        }
+
+        public bool Overlap(Rectangle testRect)
+        {
+            if (testRect.RightEdge() < LeftEdge || testRect.LeftEdge > RightEdge())
+                return false;
+            if (testRect.BottomEdge() < TopEdge || testRect.TopEdge > BottomEdge())
+                return false;
+
+            return true;
+            //var TestRightEdge = 
+
+            //if (!Covered(testRect.LeftEdge, testRect.TopEdge))
+            //    return false;
+            //else
+            //{
+
+            //}
+        }
     }
 
     public class Claim
@@ -91,11 +120,74 @@ namespace Day03
             ClaimParser Parser = new ClaimParser(InputForPart01);
             Parser.ExecParsing();
             var Claims = Parser.Claims;
+
+            //// Test data set
+            //Claims = new List<Claim>
+            //{
+            //    new Claim(1, new Rectangle(1, 3, 4, 4)),
+            //    new Claim(1, new Rectangle(3, 1, 4, 4)),
+            //    new Claim(1, new Rectangle(5, 5, 2, 2))
+            //};
+
+            // simple linear approach
+            int numOfValidFabricSquaremeters = 0;
+            for (int i = 0; i < 1000; ++i)
+                for (int j = 0; j < 1000; ++j)
+                {
+                    bool withinTwoClaims = false;
+                    int claimCounter = 0;
+                    for (int c = 0; c < Claims.Count && !withinTwoClaims; ++c)
+                    {
+                        var claim = Claims[c];
+                        if (claim.Rectangle.Covered(i, j))
+                            ++claimCounter;
+                        withinTwoClaims = claimCounter > 1;
+                    }
+                    if (withinTwoClaims)
+                        ++numOfValidFabricSquaremeters;
+                }
+            System.Console.WriteLine("Farbic m^2 that are covered by two or more claims: " + numOfValidFabricSquaremeters);
         }
 
         public override void Part02()
         {
+            ClaimParser Parser = new ClaimParser(InputForPart02);
+            Parser.ExecParsing();
+            var Claims = Parser.Claims;
 
+            // Test data set
+            //Claims = new List<Claim>
+            //{
+            //    new Claim(1, new Rectangle(1, 3, 4, 4)),
+            //    new Claim(2, new Rectangle(3, 1, 4, 4)),
+            //    new Claim(3, new Rectangle(5, 5, 2, 2))
+            //};
+
+            bool found = false;
+            int id = -1;
+            for (int c0 = 0; c0 < Claims.Count && !found; ++c0)
+            {
+                bool overlapsFound = false;
+
+                var claim0 = Claims[c0];
+                for (int c1 = 0; c1 < Claims.Count && !overlapsFound; ++c1)
+                {
+                    if (c1 != c0)
+                    {
+                        var claim1 = Claims[c1];
+                        overlapsFound = claim0.Rectangle.Overlap(claim1.Rectangle);
+                    }
+
+                    //found = claim0.Rectangle.Overlap(claim1.Rectangle);
+                }
+
+                if (!overlapsFound)
+                {
+                    found = true;
+                    id = claim0.Id;
+                }
+            }
+            System.Console.WriteLine("Fabric that isn't overlapping has id: " + id);
         }
     }
 
@@ -106,7 +198,7 @@ namespace Day03
             // The code provided will print ‘Hello World’ to the console.
             // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
             Day03Tasks dayInst = new Day03Tasks();
-            dayInst.Exec();
+            dayInst.Exec(false, true);
             
             Console.ReadKey();
 
