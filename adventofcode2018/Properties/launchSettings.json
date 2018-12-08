@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "adventofcode2018": {
-      "commandName": "Project",
-      "commandLineArgs": "input.txt"
-    }
-  }
-}
