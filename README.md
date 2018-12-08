@@ -38,3 +38,6 @@ I've used the tasks of this day to get used to C# in Visual Studio and to learn 
 ### Day 03
 - C# Libraries in Visual Studio
 - class basics in C#
+- inheritance
+- virtual and abstract methods
+- var keyword
