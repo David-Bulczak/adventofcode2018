@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace adventofcode2018
@@ -13,7 +13,7 @@ namespace adventofcode2018
 
         private static string GetAppPath()
         {
-            return System.IO.Path.GetFullPath(System.IO.Path.Combine(System.AppContext.BaseDirectory, "..//..//.."));
+            return System.IO.Path.GetFullPath(System.IO.Path.Combine(System.AppContext.BaseDirectory, "..//.."));
         }
 
         private static void Part01()
@@ -22,8 +22,8 @@ namespace adventofcode2018
             System.Console.WriteLine("Day 01 - Part 01");
             System.Console.WriteLine("----------------");
 
-            int[] frequencies       = ReadFrequencies(System.IO.Path.Combine(GetAppPath(), "input-part-02.txt")); 
-            
+            int[] frequencies = ReadFrequencies(System.IO.Path.Combine(GetAppPath(), "input-part-01.txt"));
+
             // sum up frequencies (non LINQ version)
             int sum = 0;
             Array.ForEach(frequencies, delegate (int i) { sum += i; });
@@ -37,7 +37,7 @@ namespace adventofcode2018
             System.Console.WriteLine("----------------");
 
             int[] frequencies = ReadFrequencies(System.IO.Path.Combine(GetAppPath(), "input-part-02.txt"));
-            
+
             List<int> usedFrequencies = new List<int>() { 0 }; /// tracks used frequencies
             int sum = 0;
             bool done = false;
