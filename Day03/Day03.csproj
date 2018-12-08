@@ -48,5 +48,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AoC2018Lib\AoC2018Lib.csproj">
+      <Project>{ce155610-8214-409a-ad98-50a0a68ec4ea}</Project>
+      <Name>AoC2018Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

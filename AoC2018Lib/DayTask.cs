@@ -6,11 +6,25 @@ using System.Threading.Tasks;
 
 namespace AoC2018Lib
 {
-    public class DayTast
+    public class DayTask
     {
+        // -----------
+        // Day project specific path functions
+        // -----------
+
         public string GetAppPath()
         {
             return System.IO.Path.GetFullPath(System.IO.Path.Combine(System.AppContext.BaseDirectory, "..//.."));
+        }
+
+        public string GetPart01InputPath()
+        {
+            return System.IO.Path.Combine(GetAppPath(), "input-part-01.txt");
+        }
+
+        public string GetPart02InputPath()
+        {
+            return System.IO.Path.Combine(GetAppPath(), "input-part-02.txt");
         }
 
         public string[] ReadInputLines(string inputFilePath)
