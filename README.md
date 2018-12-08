@@ -34,3 +34,7 @@ I've used the tasks of this day to get used to C# in Visual Studio and to learn 
 ### Day 02
 - Lists
 - String manipulation
+
+### Day 03
+- C# Libraries in Visual Studio
+- class basics in C#
