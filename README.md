@@ -30,3 +30,14 @@ I've used the tasks of this day to get used to C# in Visual Studio and to learn 
 - Declaration and definition of functions
 - Array.ForEach to process whole array
 - List<> to track values and get used to C# generics
+
+### Day 02
+- Lists
+- String manipulation
+
+### Day 03
+- C# Libraries in Visual Studio
+- class basics in C#
+- inheritance
+- virtual and abstract methods
+- var keyword
