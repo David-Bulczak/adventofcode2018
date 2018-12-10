@@ -20,6 +20,8 @@ namespace AoC2018Lib
         private bool inputForPart01Valid;
         protected string[] InputForPart02 { get; set; }
         private bool inputForPart02Valid;
+        protected string[] InputForTest { get; set; }
+        private bool inputForTestValid;
 
         // -----------
         // Day project specific path functions
@@ -58,26 +60,46 @@ namespace AoC2018Lib
         /// </summary>
         public abstract void Part02();
 
-        public void Exec(bool runPart01 = true, bool runPart02 = true)
+        public bool RunTestPart01()
         {
-            if (inputForPart01Valid && runPart01)
-            {
-                System.Console.WriteLine("----------------");
-                System.Console.WriteLine("    Part 01");
-                System.Console.WriteLine("----------------");
-                
-                Part01();
-            }
-
-            if (inputForPart02Valid && runPart02)
-            {
-                System.Console.WriteLine("----------------");
-                System.Console.WriteLine("    Part 02");
-                System.Console.WriteLine("----------------");
-
-                Part02();
-            }
+            return true;
         }
 
+        public bool RunTestPart02()
+        {
+            return true;
+        }
+
+        public void Exec(bool runPart01 = true, bool runPart02 = true)
+        {
+            if (runPart01)
+            {
+                if (inputForPart01Valid)
+                {
+                    System.Console.WriteLine("----------------");
+                    System.Console.WriteLine("    Part 01");
+                    System.Console.WriteLine("----------------");
+
+                    Part01();
+                }
+                else
+                    System.Console.WriteLine("ERROR: No input for part 01!");
+            }
+
+
+            if (runPart02)
+            {
+                if (inputForPart02Valid)
+                {
+                    System.Console.WriteLine("----------------");
+                    System.Console.WriteLine("    Part 02");
+                    System.Console.WriteLine("----------------");
+
+                    Part02();
+                }
+                else
+                    System.Console.WriteLine("ERROR: No input for part 02!");
+            } 
+        }
     }
 }
