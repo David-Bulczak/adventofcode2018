@@ -41,3 +41,12 @@ I've used the tasks of this day to get used to C# in Visual Studio and to learn 
 - inheritance
 - virtual and abstract methods
 - var keyword
+
+### Day 04
+- generics
+- dateTime / parsing
+- enums
+- exceptions
+- basics of lambdas/delegates
+- Aggregate
+- Lists, Dictionaries, Tuples
