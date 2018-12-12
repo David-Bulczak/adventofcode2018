@@ -50,3 +50,7 @@ I've used the tasks of this day to get used to C# in Visual Studio and to learn 
 - basics of lambdas/delegates
 - Aggregate
 - Lists, Dictionaries, Tuples
+
+### Day 05
+- ref keyword
+- addes some basic unit testing mechanism
