@@ -93,7 +93,7 @@ namespace AoC2018Lib
 
         public void Exec(bool runPart01 = true, bool runPart02 = true)
         {
-            if (runPart01 && RunTestPart01(InputForTest01))
+            if (runPart01 && inputForTest01Valid && RunTestPart01(InputForTest01))
             {
                 System.Console.WriteLine("Test part 01 passed!");
             }
@@ -119,7 +119,7 @@ namespace AoC2018Lib
             }
 
 
-            if (runPart02 && RunTestPart02(InputForTest02))
+            if (runPart02 && inputForTest02Valid && RunTestPart02(InputForTest02))
             {
                 System.Console.WriteLine("Test part 02 passed!");
             }
