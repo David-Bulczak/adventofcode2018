@@ -18,8 +18,10 @@ namespace AoC2018Lib
             inputForTest01Valid = InputForTest01.Length > 0;
             InputForTest02 = ReadInputLines(GetTest02InputPath());
             inputForTest02Valid = InputForTest02.Length > 0;
+
+            IsTesting = false;
         }
-        
+
         protected string[] InputForPart01 { get; set; }
         private bool inputForPart01Valid;
         protected string[] InputForPart02 { get; set; }
@@ -28,6 +30,8 @@ namespace AoC2018Lib
         private bool inputForTest01Valid;
         protected string[] InputForTest02 { get; set; }
         private bool inputForTest02Valid;
+
+        protected bool IsTesting { get; set; } // aux variable that is true when one of the task functions is running in testmode. can be used for test parameters etc.
 
         // -----------
         // Day project specific path functions
@@ -77,23 +81,27 @@ namespace AoC2018Lib
 
         public bool RunTestPart01(string[] input = null)
         {
+            IsTesting = true;
             var result = int.Parse(input[input.Length - 1]);
             Array.Resize(ref input, input.Length - 1);
             var testResult = Part01(input);
+            IsTesting = false;
             return result == testResult;
         }
 
         public bool RunTestPart02(string[] input = null)
         {
+            IsTesting = true;
             var result = int.Parse(input[input.Length -1]);
             Array.Resize(ref input, input.Length - 1);
             var testResult = Part02(input);
+            IsTesting = false;
             return result == testResult;
         }
 
         public void Exec(bool runPart01 = true, bool runPart02 = true)
         {
-            if (runPart01 && RunTestPart01(InputForTest01))
+            if (runPart01 && inputForTest01Valid && RunTestPart01(InputForTest01))
             {
                 System.Console.WriteLine("Test part 01 passed!");
             }
@@ -119,7 +127,7 @@ namespace AoC2018Lib
             }
 
 
-            if (runPart02 && RunTestPart02(InputForTest02))
+            if (runPart02 && inputForTest02Valid && RunTestPart02(InputForTest02))
             {
                 System.Console.WriteLine("Test part 02 passed!");
             }
