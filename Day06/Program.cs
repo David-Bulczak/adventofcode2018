@@ -185,7 +185,49 @@ namespace Day06
 
         public override int Part02(string[] input = null)
         {
-            throw new NotImplementedException();
+            int testDistance = 10000;
+            if (IsTesting)
+                testDistance = 32;
+
+            var coordParser = new CoordinateParser(input);
+            coordParser.ExecParsing();
+            var cellCenters = coordParser.Results;
+            var cells = Cell.GetCellList(cellCenters);
+
+            // 1. Again we need minMaxCoords for the grid base
+            var minMaxCoords = Helpers.SearchMinMax(cellCenters);
+
+            // We need to enlarge the grid since locations outside the minMax grid may be valid in generl, 
+            // thus have to be tested.
+            // The grid has to be enlarged by testDistance / numberOfInputLocations.
+            // Explanation: in worst case all inputLocations are at one position and would add the same amount of distance to tested location.
+            // Thus a testLocation at such a border case will have a distance of testDistance.
+            // TODO: Corner diagonals may be cut of from iteration grid.
+
+            int gridEnlargement = (int)(Math.Ceiling((double)(testDistance) / (double)(cellCenters.Count))) - 1;
+
+            int validLocations = 0;
+            for (int row = (int)minMaxCoords[0].Y - gridEnlargement; row <= (int)minMaxCoords[1].Y + gridEnlargement; ++row)
+            {
+                for (int col = (int)minMaxCoords[0].X - gridEnlargement; col <= (int)minMaxCoords[1].X + gridEnlargement; ++col)
+                {
+                    var currentPoint = new Vector2(col, row);
+
+                    // test against cellCenters
+                    int totalDistance = 0;
+                    bool testDistanceExceeded = false;
+                    for (int c = 0; c < cellCenters.Count && !testDistanceExceeded; ++c)
+                    {
+                        totalDistance += Helpers.ManhattanDistance(cellCenters[c], currentPoint);
+                        if (totalDistance >= testDistance)
+                            testDistanceExceeded = true;
+                    }
+                    if (!testDistanceExceeded)
+                        ++validLocations;
+                }
+            }
+
+            return validLocations;
         }
     }
     class Program
