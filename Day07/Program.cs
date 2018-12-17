@@ -270,8 +270,6 @@ namespace Day07
                 }
                 ++timeCounter;
 
-                
-
             }
             //++timeCounter;
             return "" + timeCounter;

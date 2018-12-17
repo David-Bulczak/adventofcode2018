@@ -63,3 +63,6 @@ I've used the tasks of this day to get used to C# in Visual Studio and to learn 
 - Advanced generics
     - Specialization
     - constraints
+
+### Day 08
+- Reference parameters
