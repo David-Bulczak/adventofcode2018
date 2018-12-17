@@ -7,6 +7,20 @@ using AoC2018Lib;
 
 namespace Day07
 {
+    class Worker
+    {
+        public Worker()
+        {
+            Step = null;
+        }
+        public GraphNode Step { get; set; }
+
+        public bool IsAvailable()
+        {
+            return (Step == null || Step.SecondsPassed >= Step.SecondsNeeded);
+        }
+    }
+
     class GraphDependency
     {
         public GraphDependency(char node, char dependsOnNode)
@@ -28,6 +42,7 @@ namespace Day07
 
         public List<GraphNode> NextNodes { get; set; }
         public List<GraphNode> PrevNodes { get; set; }
+        public Worker Worker;
 
         public bool IsAvailable()
         {
@@ -43,11 +58,33 @@ namespace Day07
 
         public GraphNode(char newId)
         {
+            SecondsNeeded = 60 + newId - 64;
+            SecondsPassed = 0;
+            Worker = null;
             IsFinished = false;
             Id = newId;
             NextNodes = new List<GraphNode>();
             PrevNodes = new List<GraphNode>();
         }
+
+        public void AddSeconsPassed(int sec = 1)
+        {
+            SecondsPassed += sec;
+        }
+        public bool StepDone() { return SecondsPassed >= SecondsNeeded;  } // TODO this funcionality should be moved to IsFinished. Right now it is in it's own function because otherwise it would break logic of part 01.
+        public bool StepAvailable()
+        {
+            if(PrevNodes.Count == 0)
+                return true;
+            bool result = true;
+            foreach (var prev in PrevNodes)
+            {
+                result = result && prev.StepDone();
+            }
+            return result;
+        }
+        public int SecondsNeeded { get; set; }
+        public int SecondsPassed { get; set; }
     }
     /**
      * Very simple and basic directed acyclic graph.
@@ -155,7 +192,89 @@ namespace Day07
 
         public override string Part02(string[] input = null)
         {
-            throw new NotImplementedException();
+            var DebugTable = new List<string>();
+
+            var parser = new GraphParser(input);
+            parser.ExecParsing();
+            var dependencies = parser.Results;
+
+            var graph = new SimpleDAG();
+            foreach (var dep in dependencies)
+                graph.AddDependency(dep);
+
+            if (IsTesting)
+                foreach (var node in graph.Nodes)
+                    node.SecondsNeeded -= 60;
+
+            // Init
+            var availableNodes = graph.Nodes.FindAll(x => x.PrevNodes.Count == 0); // possibily available
+            availableNodes.Sort((a, b) => a.Id > b.Id ? 1 : -1);
+
+            // Actual algorithm
+            string result = "";
+            var workers = new List<Worker>() { new Worker(), new Worker(), new Worker(), new Worker(), new Worker() };
+            if (IsTesting)
+                workers = new List<Worker>() { new Worker(), new Worker() };
+            int timeCounter = 0;
+            while (availableNodes.Count > 0) // each iteration represents a time step
+            {
+                // try to assign undone tasks to workers
+                var tmpSteps = availableNodes.FindAll(s => s.Worker == null && !s.StepDone());
+                var tmpWorkers = workers.FindAll(w => w.IsAvailable() == true);
+                bool workersAvailable = tmpWorkers.Count > 0;
+                for (int s = 0; s < tmpSteps.Count && workersAvailable; ++s)
+                {
+                    if (tmpSteps[s].Worker == null && !tmpSteps[s].StepDone() && tmpSteps[s].StepAvailable())
+                    {
+                        var worker = tmpWorkers[0];
+                        tmpSteps[s].Worker = worker;
+                        worker.Step = tmpSteps[s];
+                        tmpWorkers = workers.FindAll(w => w.IsAvailable() == true);
+                        workersAvailable = tmpWorkers.Count > 0;
+                    }
+                    
+                }
+                string debugRow = "";
+                debugRow = debugRow + timeCounter;
+                debugRow = debugRow + "\t";
+                for (int w = 0; w < workers.Count; ++w)
+                {
+                    if (workers[w].Step != null)
+                        debugRow = debugRow + workers[w].Step.Id + "\t";
+                    else
+                        debugRow = debugRow + ".\t";
+                }
+                debugRow = debugRow + result;
+                Console.WriteLine(debugRow);
+
+                // Update time worked on steps
+                foreach (var w in workers)
+                {
+                    if (w.Step != null)
+                    {
+                        w.Step.AddSeconsPassed();
+
+                        // check if step is ready. if so than add potentially new steps.
+                        if (w.Step.StepDone())
+                        {
+                            result = result + w.Step.Id;
+                            foreach (var next in w.Step.NextNodes)
+                            {
+                                if (!availableNodes.Contains(next) && !next.StepDone())
+                                    availableNodes.Add(next);
+                            }
+                            availableNodes.Remove(w.Step);
+                            w.Step = null;
+                        }
+                    }
+                }
+                ++timeCounter;
+
+                
+
+            }
+            //++timeCounter;
+            return "" + timeCounter;
         }
     }
 
