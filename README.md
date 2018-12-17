@@ -54,3 +54,12 @@ I've used the tasks of this day to get used to C# in Visual Studio and to learn 
 ### Day 05
 - ref keyword
 - addes some basic unit testing mechanism
+
+### Day 06
+- Numerics
+    - Vector2
+
+### Day 07 
+- Advanced generics
+    - Specialization
+    - constraints

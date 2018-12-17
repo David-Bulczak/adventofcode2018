@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AoC2018Lib
 {
-    public abstract class DayTask
+    public abstract class DayTask<OutputType> where OutputType : IComparable
     {
         public DayTask()
         {
@@ -72,31 +72,48 @@ namespace AoC2018Lib
         /// <summary>
         /// Has to implement day's 1st part
         /// </summary>
-        public abstract int Part01(string[] input = null);
+        public abstract OutputType Part01(string[] input = null);
 
         /// <summary>
         /// Has to implement day's 2nd part
         /// </summary>
-        public abstract int Part02(string[] input = null);
+        public abstract OutputType Part02(string[] input = null);
+
+        private OutputType StringToOutType(string resultString)
+        {
+            if (typeof(OutputType) == typeof(string))
+                return (OutputType)(object)resultString;
+            else
+                return (OutputType)(object)int.Parse(resultString);
+        }
+        //private int TestResultToOutType(string resultString)
+        //{
+        //    return int.Parse(resultString);
+        //}
+        //private string TestResultToOutType(string resultString)
+        //{
+        //    return resultString;
+        //}
 
         public bool RunTestPart01(string[] input = null)
         {
             IsTesting = true;
-            var result = int.Parse(input[input.Length - 1]);
+            var result = StringToOutType(input[input.Length - 1]);
             Array.Resize(ref input, input.Length - 1);
             var testResult = Part01(input);
             IsTesting = false;
-            return result == testResult;
+            //return (new Comparer<OutputType>).Compare(result, testResult);
+            return result.CompareTo(testResult) == 0;
         }
 
         public bool RunTestPart02(string[] input = null)
         {
             IsTesting = true;
-            var result = int.Parse(input[input.Length -1]);
+            var result = StringToOutType(input[input.Length -1]);
             Array.Resize(ref input, input.Length - 1);
             var testResult = Part02(input);
             IsTesting = false;
-            return result == testResult;
+            return result.CompareTo(testResult) == 0;
         }
 
         public void Exec(bool runPart01 = true, bool runPart02 = true)
