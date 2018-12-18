@@ -14,26 +14,29 @@ namespace Day09
             Score = 0;
         }
 
-        public int Score { get; set; }
+        public long Score { get; set; }
     }
 
+    // This is a brute force solution with a lot modulo operations etc.
+    // Part 2 taskes quite long due to it's complexity.
+    // Idea: Use double linked circular list. This speeds up traversing!!!
     class MarbleGame
     {
         /**
-         * @brief Adds marbel into game and returns points
+         * @brief Adds marbel longo game and returns polongs
          */
-        public int AddMarble(int marbleNumber)
+        public long AddMarble(long marbleNumber)
         {
             if ((marbleNumber % 23) == 0)
             {
-                int points = marbleNumber;
+                long polongs = marbleNumber;
                 int removeId = CurrentId - 7;
                 if (removeId < 0)
                     removeId = Marbles.Count - 1 - Math.Abs(removeId+1);
-                points += Marbles[removeId];
+                polongs += Marbles[removeId];
                 Marbles.RemoveAt(removeId);
                 CurrentId = removeId % Marbles.Count;
-                return points;
+                return polongs;
             }
             else
             {
@@ -47,38 +50,38 @@ namespace Day09
             return 0;
         }
 
-        public List<int> Marbles;
+        public List<long> Marbles;
         public int CurrentId;
 
         public MarbleGame()
         {
-            Marbles = new List<int>();
+            Marbles = new List<long>();
             Marbles.Add(0);
             CurrentId = 0;
         }
     }
 
-    class Day09Tasks : DayTask<int>
+    class Day09Tasks : DayTask<long>
     {
-        public override int Part01(string[] input = null)
+        public override long Part01(string[] input = null)
         {
             int numberOfPlayers = 479;
             if (IsTesting)
                 numberOfPlayers = 9;
-            int numberOfMarbles = 71035 * 100;
+            long numberOfMarbles = 71035 * 100;
             if (IsTesting)
                 numberOfMarbles = 25;
             var players = new List<Player>();
-            for (int p = 0; p < numberOfPlayers; ++p)
+            for (long p = 0; p < numberOfPlayers; ++p)
                 players.Add(new Player());
 
             // actual algorithm
             var game = new MarbleGame();
             int currentPlayerId = 0; // actually in task +1
-            for (int s = 1; s <= numberOfMarbles; ++s)
+            for (long s = 1; s <= numberOfMarbles; ++s)
             {
-                int points = game.AddMarble(s);
-                players[currentPlayerId].Score += points;
+                long polongs = game.AddMarble(s);
+                players[currentPlayerId].Score += polongs;
                 ++currentPlayerId;
                 currentPlayerId = currentPlayerId % numberOfPlayers;
             }
@@ -86,7 +89,7 @@ namespace Day09
             return players[0].Score;
         }
 
-        public override int Part02(string[] input = null)
+        public override long Part02(string[] input = null)
         {
             throw new NotImplementedException();
         }
@@ -96,7 +99,7 @@ namespace Day09
     {
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
+            // The code provided will prlong ‘Hello World’ to the console.
             // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
             var tasks = new Day09Tasks();
             tasks.Exec();

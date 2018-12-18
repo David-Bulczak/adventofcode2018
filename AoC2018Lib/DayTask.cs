@@ -83,8 +83,12 @@ namespace AoC2018Lib
         {
             if (typeof(OutputType) == typeof(string))
                 return (OutputType)(object)resultString;
-            else
+            else if (typeof(OutputType) == typeof(int))
                 return (OutputType)(object)int.Parse(resultString);
+            else if (typeof(OutputType) == typeof(long))
+                return (OutputType)(object)long.Parse(resultString);
+            else
+                return (OutputType)(object)double.Parse(resultString);
         }
         //private int TestResultToOutType(string resultString)
         //{
