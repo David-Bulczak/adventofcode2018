@@ -29,7 +29,7 @@ I've used the tasks of this day to get used to C# in Visual Studio and to learn 
 - System.IO commands for file reading
 - Declaration and definition of functions
 - Array.ForEach to process whole array
-- List<> to track values and get used to C# generics
+- List<> to track values and get usjd to C# generics
 
 ### Day 02
 - Lists
@@ -66,3 +66,9 @@ I've used the tasks of this day to get used to C# in Visual Studio and to learn 
 
 ### Day 08
 - Reference parameters
+
+### Day 09
+- Nothing special
+
+### Day 10
+- Extension
