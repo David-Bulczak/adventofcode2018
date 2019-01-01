@@ -31,7 +31,9 @@ namespace AoC2018Lib
         {
             foreach (string inputEntry in OriginalInput)
             {
-                Results.Add(ParseInputEntry(inputEntry));
+                var tmp = ParseInputEntry(inputEntry);
+                if (tmp != null)
+                    Results.Add(tmp);
             }
         }
     }
